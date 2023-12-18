@@ -5,9 +5,9 @@ import {
   DeleteButton,
 } from 'components/ContactList/ContactList.styled';
 
-const ContactListComponent = ({ filtredContacts, onDeleteContact }) => (
+const ContactListComponent = ({ filteredContacts, onDeleteContact }) => (
   <ContactList>
-    {filtredContacts.map(contact => (
+    {filteredContacts.map(contact => (
       <ContactItem key={contact.id}>
         {contact.name}:{contact.number}
         <DeleteButton onClick={() => onDeleteContact(contact.id)}>

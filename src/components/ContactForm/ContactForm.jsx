@@ -1,23 +1,24 @@
-import React, { Component } from 'react';
-import { Button, ContactForm, Input, Label } from './ContactForm.styled';
 import { nanoid } from 'nanoid';
+import React, { useState } from 'react';
+import { Button, ContactForm, Input, Label } from './ContactForm.styled';
 
-class ContactFormComponent extends Component {
-  state = {
-    name: '',
-    number: '',
+const ContactFormComponent = ({ contacts, onContactAdd }) => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
+  const onChangeInput = evt => {
+    const { value, name } = evt.target;
+    if (name === 'name') {
+      setName(value);
+    } else if (name === 'number') {
+      setNumber(value);
+    }
   };
 
-  onChangeInput = evt => {
-    const { name, value } = evt.target;
-    this.setState({ [name]: value });
-  };
-
-  onSubmit = evt => {
+  const onSubmit = evt => {
     evt.preventDefault();
-    const { name, number } = this.state;
 
-    const isDuplicate = this.props.contacts.some(
+    const isDuplicate = contacts.some(
       contact => contact.name === name && contact.number === number
     );
 
@@ -27,36 +28,34 @@ class ContactFormComponent extends Component {
     }
 
     const newContact = { name, number, id: nanoid() };
-    this.props.onContactAdd(newContact);
-    this.setState({ name: '', number: '' });
+    onContactAdd(newContact);
+    setName('');
+    setNumber('');
   };
 
-  render() {
-    const { name, number } = this.state;
-    return (
-      <ContactForm onSubmit={this.onSubmit}>
-        <Label>Name</Label>
-        <Input
-          value={name}
-          onChange={this.onChangeInput}
-          type="text"
-          name="name"
-          required
-          placeholder="Add contact name"
-        />
-        <Label>Number</Label>
-        <Input
-          value={number}
-          onChange={this.onChangeInput}
-          type="tel"
-          name="number"
-          required
-          placeholder="Add contact number"
-        />
-        <Button type="submit">Add Contact</Button>
-      </ContactForm>
-    );
-  }
-}
+  return (
+    <ContactForm onSubmit={onSubmit}>
+      <Label>Name</Label>
+      <Input
+        value={name}
+        onChange={onChangeInput}
+        type="text"
+        name="name"
+        required
+        placeholder="Add contact name"
+      />
+      <Label>Number</Label>
+      <Input
+        value={number}
+        onChange={onChangeInput}
+        type="tel"
+        name="number"
+        required
+        placeholder="Add contact number"
+      />
+      <Button type="submit">Add Contact</Button>
+    </ContactForm>
+  );
+};
 
 export default ContactFormComponent;
