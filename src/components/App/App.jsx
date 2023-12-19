@@ -21,11 +21,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    const contactData = contacts.map(({ name, number }) => ({
-      name,
-      number,
-    }));
-    localStorage.setItem('contacts', JSON.stringify(contactData));
+    localStorage.setItem('contacts', JSON.stringify(contacts));
   }, [contacts]);
 
   const onChangeFilter = evt => {
